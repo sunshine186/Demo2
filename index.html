@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<center>
+			添加用户<br>
+			姓名: <input type="text" name="name" id="name" />&nbsp;&nbsp;
+			电话: <input type="text" name="tel" id="tel" /><br><br>
+			<button id="addUser">提交</button>
+			<hr>
+			<table id="usertable" border="1" cellpadding="5" cellspacing=0>
+				<tbody id="tbody">
+					<tr>
+						<th>姓名</th>
+						<th>电话</th>
+						<th>操作</th>
+					</tr>
+				</tbody>
+			</table>
+		</center>
+		<script>
+			//1 按钮的onclick事件
+			document.getElementById("addUser").onclick = function(){
+				//2 获取上面三个文本框的值
+				var nameValue = document.getElementById("name").value;
+				var telValue = document.getElementById("tel").value;
+				// ----------------姓名---------------------------------
+				var tr = document.createElement("tr");
+				var nameTd = document.createElement("td");
+				var nameText = document.createTextNode(nameValue);
+				nameTd.appendChild(nameText);
+				// ------------------电话-------------------------------
+				var telTd = document.createElement("td");
+				var telText = document.createTextNode(telValue);
+				telTd.appendChild(telText);
+				// -----------------操作--------------------------------
+				var aTd = document.createElement("td");
+				var a = document.createElement("a");
+				a.setAttribute("href","deleteEmp?id="+nameValue);
+				var aText = document.createTextNode("Delete");
+				a.appendChild(aText);
+				aTd.appendChild(a);
+				// ------------------3.插入表格-------------------------
+				tr.appendChild(nameTd);
+				tr.appendChild(telTd);
+				tr.appendChild(aTd);
+				var tbody = document.getElementById("tbody");
+				tbody.appendChild(tr);
+				//-------------------4.超链接的onclick事件---------------------
+				a.onclick = function(){
+					var trElement = a.parentNode.parentNode;
+					var nameElement = trElement.firstChild.firstChild.nodeValue;
+					var flag = window.confirm("你确认要删除"+nameElement+"这个用户吗?");
+					if(!flag){
+						return false;
+					}else{
+						var parentElement = trElement.parentNode;
+						parentElement.removeChild(trElement);
+						return false;
+					}
+				}
+			}
+	 	</script>
+	</body>
+</html>
